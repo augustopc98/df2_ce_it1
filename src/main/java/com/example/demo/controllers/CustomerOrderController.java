@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -32,25 +31,21 @@ public class CustomerOrderController {
     }
 
     @PostMapping("/{orderId}/items")
-    public CustomerOrder addOrderItem(
-            @PathVariable Long orderId,
-            @RequestBody OrderItem item
-    ) {
+    public CustomerOrder addOrderItem(@PathVariable Long orderId, @RequestBody OrderItem item) {
+        // Validation to ensure productPrice is not null
+        if (item.getProductPrice() == null) {
+            throw new IllegalArgumentException("Product price cannot be null");
+        }
         return customerOrderService.addOrderItem(orderId, item);
     }
 
     @DeleteMapping("/{orderId}/items/{orderItemId}")
-    public CustomerOrder removeOrderItem(
-            @PathVariable Long orderId,
-            @PathVariable Long orderItemId
-    ) {
+    public CustomerOrder removeOrderItem(@PathVariable Long orderId, @PathVariable Long orderItemId) {
         return customerOrderService.removeOrderItem(orderId, orderItemId);
     }
 
     @GetMapping("/{orderId}/total")
-    public BigDecimal calculateTotal(
-            @PathVariable Long orderId
-    ) {
+    public BigDecimal calculateTotal(@PathVariable Long orderId) {
         return customerOrderService.calculateTotal(orderId);
     }
 
@@ -60,10 +55,7 @@ public class CustomerOrderController {
     }
 
     @PostMapping("/{orderId}/status")
-    public void updateDeliveryStatus(
-            @PathVariable Long orderId,
-            @RequestBody String status
-    ) {
+    public void updateDeliveryStatus(@PathVariable Long orderId, @RequestBody String status) {
         customerOrderService.updateDeliveryStatus(orderId, status);
     }
 

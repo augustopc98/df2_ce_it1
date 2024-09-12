@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,7 +21,7 @@ public class CustomerOrderServiceImpl implements CustomerOrderService {
     }
 
     @Override
-    public CustomerOrder createOrder(String customerEmail, String customerAddress, Date orderDate, List<OrderItem> items) {
+    public CustomerOrder createOrder(String customerEmail, String customerAddress, java.util.Date orderDate, List<OrderItem> items) {
         CustomerOrder customerOrder = new CustomerOrder(customerEmail, customerAddress, orderDate, items);
         return customerOrderRepository.save(customerOrder);
     }
